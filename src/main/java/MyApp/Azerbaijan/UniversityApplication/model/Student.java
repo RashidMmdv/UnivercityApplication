@@ -1,9 +1,6 @@
 package MyApp.Azerbaijan.UniversityApplication.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +23,6 @@ public class Student {
     private String email;
     private String address;
     private String entryDate;
+
+
 }

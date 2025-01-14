@@ -21,4 +21,8 @@ public class StudentController {
     public Student getStudentWithId(@RequestParam Long id) {
         return studentService.getStudentWithId(id);
     }
+    @DeleteMapping("/delete")
+    public void deleteStudent(@RequestParam Long id) {
+        studentService.deleteStudent(id);
+    }
 }
