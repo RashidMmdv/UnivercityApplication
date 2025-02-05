@@ -14,11 +14,13 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true )
     private String finCode;
     private String name;
     private String surname;
     private byte age;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String phone;
     private String email;
     private String address;

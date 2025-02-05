@@ -1,8 +1,12 @@
 package MyApp.Azerbaijan.UniversityApplication.service;
 
+import MyApp.Azerbaijan.UniversityApplication.dto.StudentCreateDto;
+import MyApp.Azerbaijan.UniversityApplication.exception.StudentNotFoundException;
 import MyApp.Azerbaijan.UniversityApplication.model.Student;
 import MyApp.Azerbaijan.UniversityApplication.repository.StudentRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,26 +14,16 @@ import org.springframework.stereotype.Service;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final ModelMapper mapper;
 
 
-    public Student createStudent(Student student) {
-        Student newStudent = Student.builder()
-                .name(student.getName())
-                .surname(student.getSurname())
-                .age(student.getAge())
-                .gender(student.getGender())
-                .finCode(student.getFinCode())
-                .phone(student.getPhone())
-                .email(student.getEmail())
-                .address(student.getAddress())
-                .entryDate(student.getEntryDate())
-                .build();
-        return studentRepository.save(newStudent);
+    public Student createStudent( StudentCreateDto student) {
+        return studentRepository.save(mapper.map(student, Student.class));
     }
 
     public Student getStudentWithId(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new
-                RuntimeException("Student with id " + id + " not found"));
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("STUDENT_NOT_FOUND_0001","Student not found","Student with id " + id + " not found"));
     }
 
     public void deleteStudent(Long id) {
