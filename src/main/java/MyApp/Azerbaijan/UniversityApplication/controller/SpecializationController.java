@@ -1,12 +1,10 @@
 package MyApp.Azerbaijan.UniversityApplication.controller;
 
+import MyApp.Azerbaijan.UniversityApplication.model.Group;
 import MyApp.Azerbaijan.UniversityApplication.model.Specialization;
 import MyApp.Azerbaijan.UniversityApplication.service.SpecializationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/specialization")
@@ -18,5 +16,14 @@ public class SpecializationController {
     @PostMapping("/create")
     public Specialization addSpecialization(@RequestBody Specialization specialization) {
         return specializationService.addSpecialization(specialization);
+    }
+    @PostMapping("/add-group")
+    public Specialization addGroupToSpecialization(@RequestParam Long specialId,
+                                   @RequestParam Long groupId) {
+        return specializationService.addGroupToSpecialization(specialId, groupId);
+    }
+    @GetMapping
+    public Specialization getSpecialization(@RequestParam String name) {
+        return specializationService.getSpecialization(name);
     }
 }

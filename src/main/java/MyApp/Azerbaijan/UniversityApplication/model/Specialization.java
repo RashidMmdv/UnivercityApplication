@@ -21,7 +21,9 @@ public class Specialization {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true)
+    @JoinColumn(name = "faculty_group_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Group> groups = new HashSet<>();
+
 }
