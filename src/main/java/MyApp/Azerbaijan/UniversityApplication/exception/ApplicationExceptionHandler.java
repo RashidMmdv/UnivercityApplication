@@ -1,6 +1,6 @@
 package MyApp.Azerbaijan.UniversityApplication.exception;
 
-import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,6 +35,46 @@ public class ApplicationExceptionHandler {
                 );
 
     }
+
+    @ExceptionHandler(SpecializationNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleSpecializaiontNotFound
+            (NotFoundException ex, WebRequest request) {
+        String language = request.getHeader("Accept-Language");
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(
+                        ErrorResponseDto.builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(ex.getCode())
+                                .message(ex.getMessage())
+                                .detail(ex.getDetails())
+                                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                                .requestedLang(language)
+                                .build()
+                );
+
+    }
+
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public final ResponseEntity<ErrorResponseDto> handle(DataIntegrityViolationException ex, WebRequest request) {
+        ex.printStackTrace();
+        String language = request.getHeader("Accept-Language");
+
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .code("DATA_INTEGRITY_VIOLATION")
+                .message("Bad request")
+                .detail(ex.getMessage())
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .requestedLang(language)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
+
 
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

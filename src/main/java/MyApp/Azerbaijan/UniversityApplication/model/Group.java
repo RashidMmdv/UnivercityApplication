@@ -19,7 +19,9 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false)
     private String groupName;
+    private String facultyName;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,

@@ -36,4 +36,27 @@ public class GroupService {
         studentRepository.delete(student);
         return groupRepository.save(group);
     }
+
+    public Student getStudent(Long studentId, Long groupId) {
+        Group group = groupRepository.findGroupByIdAndStudentId(groupId, studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Group with ID " + groupId +
+                                        " does not contain Student with ID " + studentId));
+        return group.getStudents().stream()
+                .filter(student -> student.getId().equals(studentId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Student with ID " + studentId + " not found in Group ID " + groupId));
+
+    }
+
+    public Student getStudentWithFinCode(String finCode, Long groupId) {
+        Group group = groupRepository.findGroupByIdAndStudentFinCode(groupId,finCode)
+                .orElseThrow(() -> new IllegalArgumentException("Group with ID " + groupId +
+                                        " does not contain Student with FinCode" +finCode));
+        return group.getStudents().stream()
+                .filter(student -> student.getFinCode().equals(finCode))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Student with ID " + finCode +
+                        " not found in Group ID " + groupId));
+
+    }
 }

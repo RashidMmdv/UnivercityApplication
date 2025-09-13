@@ -29,4 +29,14 @@ public class GroupController {
                               @RequestParam Long groupId) {
         return groupService.deleteStudent(studentId,groupId);
     }
+    @GetMapping("/get-student")
+    public Student getStudent(@RequestParam Long studentId,
+                              @RequestParam Long groupId) {
+        return groupService.getStudent(studentId,groupId);
+    }
+    @GetMapping("/get-student-fin")
+    public Student getStudentWithFinCode(@RequestParam String finCode,
+                                         @RequestParam Long groupId) {
+        return groupService.getStudentWithFinCode(finCode,groupId);
+    }
 }
